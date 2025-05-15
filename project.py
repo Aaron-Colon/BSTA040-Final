@@ -12,7 +12,7 @@ import streamlit as st
 from scipy.stats import expon
 
 # Load the ILI dataset 
-df = pd.read_csv(r"C:\Users\colon\BSTA040-Final\ilidata.csv")
+df = pd.read_csv("ilidata.csv")
 
 # Streamlit title
 st.title("Influenza-Like Illness (ILI) Over Time")
@@ -30,7 +30,11 @@ state_data = df[df["state"] == selected_state]
 ili_values = state_data["ili"].dropna()
 
 # Plot ILI percentage (column 'ili') over time
-st.line_chart(state_data[["weeks", "ili"]].set_index("weeks"))
+st.line_chart(
+    data=state_data.set_index("weeks")[["ili"]],
+    x_label="Weeks Since Start",
+    y_label="ILI (%)"
+)
 
 # Estimate lambda using LLN:
 y_bar = ili_values.mean()
